@@ -36,7 +36,9 @@
 function sendRequest(name, phone, address, goods, sum) {
     let client = name|| ' ' || phone;
     let zakaz = {title: goods.title, count: goods.count}; //объявляем новый объект??
-    let data = {client, order: {address, sum}, goods: [zakaz]}; // и уже егопомещаем в массив??
+    let goods = []; //объявляем массив goods
+    goods.push (zakaz); //помещаем в массив goods объект zakaz 
+    let data = {client, order: {address, sum}, goods}; // и уже егопомещаем в массив??
 
     let countOfGoods = goods.length;
 
@@ -47,7 +49,7 @@ function sendRequest(name, phone, address, goods, sum) {
     data.client = client;
     data.order.address = 'ул. ' || address.street || ', дом ' || address.house || ', ' || address.entrance || ' подъезд, ' || address.floor || ' этаж, кв ' || address.flat;  
     data.order.sum = sum; 
-    data.goods = [zakaz];
+    data.goods = goods;
     
     let jsonData = JSON.stringify(data);
 
