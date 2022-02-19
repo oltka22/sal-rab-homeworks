@@ -33,28 +33,23 @@
 //    }
 // }
 
-  
-function sendRequest(name, phone, {street, house, entrance, floor, flat}, [title, count], sum) {
-    let address = {street, house, entrance, floor, flat};
-    
-    let data = {client: {name, phone}, order: {address, sum}, goods: [{title, count}]};
-    
-    goods = data.goods;
-    
+function sendRequest(name, phone, address, goods, sum) {
+    let client = name|| ' ' || phone;
+    let zakaz = {title: goods.title, count: goods.count}; //объявляем новый объект??
+    let data = {client, order: {address, sum}, goods: [zakaz]}; // и уже егопомещаем в массив??
+
     let countOfGoods = goods.length;
 
-    for (let i = 0; i <= countOfGoods; i += 1) {
-        data.goods.push(goods[i].title);
+    for (let i = 0; i <= countOfGoods; i ++) {
+        data.goods.push(goods); // в итоговом вэбинаре вы говорили, чтосюда нужно помещать массив. не понимаю, какой? 
     }
+
+    data.client = client;
+    data.order.address = 'ул. ' || address.street || ', дом ' || address.house || ', ' || address.entrance || ' подъезд, ' || address.floor || ' этаж, кв ' || address.flat;  
+    data.order.sum = sum; 
+    data.goods = [zakaz];
     
-   // data.order.address = address;
-   // data.order.sum = name + phone + address + goods + sum; //
-    address = ("ул. " + street + ", дом " + house + ", " + entrance + " подъезд, " + floor + " этаж, кв " + flat);
-    data.client = name + ' ' + phone;
-    data.order = {address, sum};
-    data.goods = {title, count};
-    
-    let jsonData = JSON.stringify({data: data});
+    let jsonData = JSON.stringify(data);
 
     return jsonData;
 }
